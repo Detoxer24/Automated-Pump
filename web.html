@@ -59,15 +59,15 @@
     
     <h2>Pump 1</h2>
     <div class="switch-container">
-        <div class="switch-box" id="pump1-box" onclick="togglePump('pump1')">
-            <div class="switch" id="pump1-switch"></div>
+        <div class="switch-box" id="Pump1Control-box" onclick="togglePump('Pump1Control')">
+            <div class="switch" id="Pump1Control-switch"></div>
         </div>
     </div>
     
     <h2>Pump 2</h2>
     <div class="switch-container">
-        <div class="switch-box" id="pump2-box" onclick="togglePump('pump2')">
-            <div class="switch" id="pump2-switch"></div>
+        <div class="switch-box" id="Pump2Control-box" onclick="togglePump('Pump2Control')">
+            <div class="switch" id="Pump2Control-switch"></div>
         </div>
     </div>
     
@@ -111,8 +111,8 @@
             }
         }
 
-        database.ref("pump1").on("value", snapshot => updateUI(snapshot, "pump1"));
-        database.ref("pump2").on("value", snapshot => updateUI(snapshot, "pump2"));
+        database.ref("Pump1Control").on("value", snapshot => updateUI(snapshot, "Pump1Control"));
+        database.ref("Pump2Control").on("value", snapshot => updateUI(snapshot, "Pump2Control"));
     </script>
 </body>
 </html>
