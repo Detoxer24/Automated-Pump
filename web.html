@@ -2,9 +2,10 @@
 <html>
 <head>
     <title>Pump Control</title>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
-    
+    <!-- Use Firebase v8 Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,18 +76,18 @@
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBRt3Jbs_pZRX29DyWYs4A8pMDoMLlAaHo",
-    authDomain: "automated-pump-a4451.firebaseapp.com",
-  databaseURL: "https://automated-pump-a4451-default-rtdb.firebaseio.com",
-  projectId: "automated-pump-a4451",
-  storageBucket: "automated-pump-a4451.firebasestorage.app",
-  messagingSenderId: "743547158435",
-  appId: "1:743547158435:web:11fb7cfca70d4a27906416",
-  measurementId: "G-1W4LY6XR3N"
+            authDomain: "automated-pump-a4451.firebaseapp.com",
+            databaseURL: "https://automated-pump-a4451-default-rtdb.firebaseio.com",
+            projectId: "automated-pump-a4451",
+            storageBucket: "automated-pump-a4451.appspot.com",
+            messagingSenderId: "743547158435",
+            appId: "1:743547158435:web:11fb7cfca70d4a27906416",
+            measurementId: "G-1W4LY6XR3N"
         };
-        
+
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
 
         function togglePump(pump) {
             let switchElement = document.getElementById(pump + "-switch");
@@ -117,6 +118,7 @@
             }
         }
 
+        // Listen for changes in Firebase
         database.ref("Pump1Control").on("value", snapshot => updateUI(snapshot, "Pump1Control"));
         database.ref("Pump2Control").on("value", snapshot => updateUI(snapshot, "Pump2Control"));
     </script>
