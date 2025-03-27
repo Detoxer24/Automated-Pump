@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pump Control</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Pump Control</h1>
+    
+    <h2>Pump 1</h2>
+    <button onclick="togglePump('pump1', 'ON')">ON</button>
+    <button onclick="togglePump('pump1', 'OFF')">OFF</button>
+    
+    <h2>Pump 2</h2>
+    <button onclick="togglePump('pump2', 'ON')">ON</button>
+    <button onclick="togglePump('pump2', 'OFF')">OFF</button>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBRt3Jbs_pZRX29DyWYs4A8pMDoMLlAaHo",
+            databaseURL: "https://automated-pump-a4451-default-rtdb.firebaseio.com"
+        };
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function togglePump(pump, state) {
+            database.ref(pump).set(state);
+            alert(pump + " turned " + state);
+        }
+    </script>
+</body>
+</html>
