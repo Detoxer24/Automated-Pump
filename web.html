@@ -4,33 +4,115 @@
     <title>Pump Control</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        .switch-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 50px;
+        }
+
+        .switch-box {
+            width: 160px;
+            height: 70px;
+            background-color: #d9534f;
+            border: 4px solid #444;
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 20px;
+        }
+
+        .switch-box.on {
+            background-color: #4CAF50;
+        }
+
+        .switch {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border: 3px solid #333;
+            border-radius: 50%;
+            position: absolute;
+            left: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .switch.on {
+            left: 90px;
+        }
+    </style>
 </head>
 <body>
     <h1>Pump Control</h1>
     
     <h2>Pump 1</h2>
-    <button onclick="togglePump('pump1', 'ON')">ON</button>
-    <button onclick="togglePump('pump1', 'OFF')">OFF</button>
+    <div class="switch-container">
+        <div class="switch-box" id="pump1-box" onclick="togglePump('pump1')">
+            <div class="switch" id="pump1-switch"></div>
+        </div>
+    </div>
     
     <h2>Pump 2</h2>
-    <button onclick="togglePump('pump2', 'ON')">ON</button>
-    <button onclick="togglePump('pump2', 'OFF')">OFF</button>
+    <div class="switch-container">
+        <div class="switch-box" id="pump2-box" onclick="togglePump('pump2')">
+            <div class="switch" id="pump2-switch"></div>
+        </div>
+    </div>
     
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyBRt3Jbs_pZRX29DyWYs4A8pMDoMLlAaHo",
-            databaseURL: "https://automated-pump-a4451-default-rtdb.firebaseio.com"
+            apiKey: "YOUR_API_KEY",
+            databaseURL: "YOUR_DATABASE_URL"
         };
         
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        function togglePump(pump, state) {
-            database.ref(pump).set(state);
-            alert(pump + " turned " + state);
+        function togglePump(pump) {
+            let switchElement = document.getElementById(pump + "-switch");
+            let switchBox = document.getElementById(pump + "-box");
+            let isOn = switchElement.classList.contains("on");
+            let newStatus = isOn ? "OFF" : "ON";
+            
+            // Instantly update UI
+            switchElement.classList.toggle("on");
+            switchBox.classList.toggle("on");
+            
+            // Update Firebase
+            database.ref(pump).set(newStatus);
         }
+
+        function updateUI(snapshot, pump) {
+            let switchElement = document.getElementById(pump + "-switch");
+            let switchBox = document.getElementById(pump + "-box");
+            if (snapshot.exists()) {
+                let status = snapshot.val();
+                if (status === "ON") {
+                    switchElement.classList.add("on");
+                    switchBox.classList.add("on");
+                } else {
+                    switchElement.classList.remove("on");
+                    switchBox.classList.remove("on");
+                }
+            }
+        }
+
+        database.ref("pump1").on("value", snapshot => updateUI(snapshot, "pump1"));
+        database.ref("pump2").on("value", snapshot => updateUI(snapshot, "pump2"));
     </script>
 </body>
 </html>
